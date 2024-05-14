@@ -142,9 +142,10 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="GDPHYSX-SampleProject.cpp" />
-    <ClCompile Include="MyVector.cpp" />
+    <ClCompile Include="p6\MyVector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="p6\MyVector.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>

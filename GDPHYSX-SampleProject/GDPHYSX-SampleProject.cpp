@@ -10,10 +10,14 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
+#include "p6/MyVector.h"
+
 //Modifier for the model's x Position
 float x_mod = 0;
 float z_mod = 0;
+float y_mod = 0;
 
+float scale = 0.5f;
 
 void Key_Callback(GLFWwindow* window // Pointer to window
     , int key// keycode of press
@@ -21,22 +25,18 @@ void Key_Callback(GLFWwindow* window // Pointer to window
     , int action // either press / release
     , int mods) // which modifier keys are held down
 {
-    if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/)
-    {
+    if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
         //Move
         x_mod += 0.1f;
     }
-    if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/)
-    {
+    if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
         //Move
         x_mod -= 0.1f;
     }
-    if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/)
-    {
+    if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         z_mod -= -0.1f;
     }
-    if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/)
-    {
+    if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
         z_mod += -0.1f;
     }
 }
@@ -198,13 +198,39 @@ int main(void)
 
     float theta = 0.0;
 
-    //Create projection matrix
-    glm::mat4 projectionMatrix = glm::ortho(-2.f, //L
-        2.f,//R
-        -2.f,//B
-        2.f,//T
-        -1.f,//Znear
-        1.f);//Zfar
+    ////Create projection matrix
+    //glm::mat4 projectionMatrix = glm::ortho(-2.f, //L
+    //    2.f,//R
+    //    -2.f,//B
+    //    2.f,//T
+    //    -1.f,//Znear
+    //    1.f);//Zfar
+
+    p6::MyVector position(0, 3, 0);
+    p6::MyVector scale(3, 3, 0);
+
+    std::cout << "Magnitude" << std::endl;
+    std::cout << position.Magnitude() << std::endl;
+    std::cout << scale.Magnitude() << std::endl;
+
+    std::cout << "Direction" << std::endl;
+    std::cout << position.Direction().x << std::endl;
+    std::cout << position.Direction().y << std::endl;
+    std::cout << position.Direction().z << std::endl;
+
+    std::cout << "Scalar Multiplication" << std::endl;
+    std::cout << position.scalarMultiplication(2.f).x << std::endl;
+    std::cout << position.scalarMultiplication(2.f).y << std::endl;
+    std::cout << position.scalarMultiplication(2.f).z << std::endl;
+
+    std::cout << "Dot Product" << std::endl;
+    std::cout << position.dotProduct(scale) << std::endl;
+
+    std::cout << "Cross Product" << std::endl;
+    std::cout << position.vectorProduct(scale).x << std::endl;
+    std::cout << position.vectorProduct(scale).y << std::endl;
+    std::cout << position.vectorProduct(scale).z << std::endl;
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -223,15 +249,15 @@ int main(void)
         //Finally, multiply it with the rotation matrix
         transformation_matrix = glm::rotate(transformation_matrix, glm::radians(theta), glm::normalize(glm::vec3(axis_x, axis_y, axis_z)));
 
-        //Get location of projection matrix
-        unsigned int projectionLoc = glGetUniformLocation(shaderProg, "projection");
-        //Assign the matrix
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+        ////Get location of projection matrix
+        //unsigned int projectionLoc = glGetUniformLocation(shaderProg, "projection");
+        ////Assign the matrix
+        //glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
-        //Get location of transformation matrix
-        unsigned int transformLoc = glGetUniformLocation(shaderProg, "transform");
-        //Assign the matrix
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformation_matrix));
+        ////Get location of transformation matrix
+        //unsigned int transformLoc = glGetUniformLocation(shaderProg, "transform");
+        ////Assign the matrix
+        //glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformation_matrix));
 
 
         //Tell openGL to use this shader
