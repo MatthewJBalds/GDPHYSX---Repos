@@ -20,13 +20,13 @@ namespace p6 {
 
 		MyVector Direction() const;
 
-		void operator+=(const MyVector v); // addition
+		void operator+=(const MyVector v);
 
-		void operator-=(const MyVector v); // subtraction
+		void operator-=(const MyVector v);
 
 		MyVector scalarMultiplication(float scale);
 
-		void operator*=(const MyVector v); // Component Product
+		void operator*=(const MyVector v); 
 
 		float dotProduct(const MyVector v);
 
